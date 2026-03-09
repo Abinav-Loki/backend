@@ -27,6 +27,11 @@ app.get('/api/status', (req, res) => {
     res.json({ status: 'ok', message: 'Momlytics Backend is running' });
 });
 
+// Root Route for Railway confirmation
+app.get('/', (req, res) => {
+    res.send('<h1>Maatri Shield Backend is Online</h1><p>API endpoints are available at /api</p>');
+});
+
 // Start Server
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
