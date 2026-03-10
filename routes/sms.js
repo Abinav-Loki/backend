@@ -37,10 +37,10 @@ router.post('/', async (req, res) => {
         });
 
         // Generate response
-        const result = await model.generateContent(text);
+        const result = await model.generateContent(incomingText);
         const responseText = result.response.text();
 
-        console.log(`AI Response for ${phone}: ${responseText}`);
+        console.log(`AI Response for ${incomingPhone}: ${responseText}`);
 
         // Return JSON for the Android app to send the SMS
         res.json({
