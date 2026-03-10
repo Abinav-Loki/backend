@@ -16,6 +16,7 @@ app.use('/api/patients', require('./routes/patients'));
 app.use('/api/reminders', require('./routes/reminders'));
 app.use('/api/vitals', require('./routes/vitals'));
 app.use('/api/simulation', require('./routes/simulation'));
+app.use('/api/sms', require('./routes/sms'));
 
 // Database Connection
 mongoose.connect(process.env.MONGODB_URI)
