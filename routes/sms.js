@@ -58,7 +58,7 @@ router.post('/', async (req, res) => {
             }, {
                 headers: {
                     'x-api-key': TEXTBEE_API_KEY,
-                    'Content-Type': application / json'
+                    'Content-Type': 'application/json'
                 }
             });
 
