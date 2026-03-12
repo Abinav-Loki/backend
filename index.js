@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
 });
 
 // Start Server
-console.log(`--- Starting Server initialization on port ${PORT} ---`);
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`--- Server is LIVE and listening on 0.0.0.0:${PORT} ---`);
+console.log(`--- Server attempting to start on port ${PORT} ---`);
+app.listen(PORT, () => {
+    console.log(`--- Server is LIVE on port ${PORT} ---`);
 });
