@@ -18,14 +18,10 @@ app.use('/api/vitals', require('./routes/vitals'));
 app.use('/api/simulation', require('./routes/simulation'));
 app.use('/api/sms', require('./routes/sms'));
 
-// Database Connection
-console.log('--- Attempting MongoDB Connection ---');
-mongoose.connect(process.env.MONGODB_URI)
-    .then(() => console.log('--- MongoDB Connected Successfully ---'))
-    .catch(err => {
-        console.error('--- MongoDB Connection Error ---');
-        console.error(err);
-    });
+// Database Connection (Supabase is handled on the Frontend)
+// mongoose.connect(process.env.MONGODB_URI)
+//     .then(() => console.log('MongoDB connected'))
+//     .catch(err => console.log('MongoDB connection error:', err));
 
 // Health Check Route
 app.get('/api/status', (req, res) => {
