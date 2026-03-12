@@ -19,21 +19,28 @@ app.use('/api/simulation', require('./routes/simulation'));
 app.use('/api/sms', require('./routes/sms'));
 
 // Database Connection
+console.log('--- Attempting MongoDB Connection ---');
 mongoose.connect(process.env.MONGODB_URI)
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.log('MongoDB connection error:', err));
+    .then(() => console.log('--- MongoDB Connected Successfully ---'))
+    .catch(err => {
+        console.error('--- MongoDB Connection Error ---');
+        console.error(err);
+    });
 
 // Health Check Route
 app.get('/api/status', (req, res) => {
+    console.log('--- Health Check Ping Received ---');
     res.json({ status: 'ok', message: 'Momlytics Backend is running' });
 });
 
 // Root Route for Railway confirmation
 app.get('/', (req, res) => {
+    console.log('--- Root Route Ping Received ---');
     res.send('<h1>Maatri Shield Backend is Online</h1><p>API endpoints are available at /api</p>');
 });
 
 // Start Server
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+console.log(`--- Starting Server initialization on port ${PORT} ---`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`--- Server is LIVE and listening on 0.0.0.0:${PORT} ---`);
 });
