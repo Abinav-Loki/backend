@@ -3,9 +3,6 @@ const router = express.Router();
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const axios = require('axios');
 
-// Gemini Setup
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY);
-
 // Textbee Setup (Using provided credentials)
 const TEXTBEE_DEVICE_ID = process.env.TEXTBEE_DEVICE_ID || '69b04ce4317c82f2166e1692';
 const TEXTBEE_API_KEY = process.env.TEXTBEE_API_KEY || '90eeea84-88a1-457e-9b9b-9fa5f7745bb6';
@@ -33,6 +30,7 @@ router.post('/', async (req, res) => {
         console.log(`Processing SMS from ${incomingPhone}: ${incomingText}`);
 
         // 1. Generate AI Response
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY);
         const model = genAI.getGenerativeModel({
             model: "gemini-1.5-flash",
             systemInstruction: `You are Maatri Shield AI, a medical assistant for pregnant women in rural India. 
