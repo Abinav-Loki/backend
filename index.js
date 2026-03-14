@@ -37,6 +37,22 @@ app.get('/', (req, res) => {
 
 // Start Server
 console.log(`--- Server attempting to start ---`);
-app.listen(PORT, '0.0.0.0', () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`--- Server is LIVE on 0.0.0.0:${PORT} ---`);
+});
+
+// Global Error Handlers to prevent process crash
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+    // Application specific logging, throwing an error, or other logic here
+});
+
+process.on('uncaughtException', (err) => {
+    console.error('Uncaught Exception thrown:', err);
+    // Perform any necessary cleanup here (e.g. close DB connections, logs)
+    // For Railway, we might want to shut down gracefully and let it restart if things are bad
+    if (err.message.includes('EADDRINUSE')) {
+        console.error('Address in use, exiting to allow restart...');
+        process.exit(1);
+    }
 });

@@ -50,6 +50,7 @@ router.post('/', async (req, res) => {
         try {
             const textbeeUrl = `https://api.textbee.dev/api/v1/gateway/devices/${TEXTBEE_DEVICE_ID}/send-sms`;
 
+            console.log(`Attempting to send SMS reply to ${incomingPhone}...`);
             const response = await axios.post(textbeeUrl, {
                 recipients: [incomingPhone],
                 message: responseText
@@ -57,12 +58,13 @@ router.post('/', async (req, res) => {
                 headers: {
                     'x-api-key': TEXTBEE_API_KEY,
                     'Content-Type': 'application/json'
-                }
+                },
+                timeout: 8000 // 8 second timeout specifically for Textbee
             });
 
             console.log('Textbee API Response:', response.data);
 
-            res.json({
+            return res.json({
                 status: 'success',
                 message: 'Reply sent via Textbee',
                 aiResponse: responseText
@@ -70,7 +72,13 @@ router.post('/', async (req, res) => {
 
         } catch (apiError) {
             console.error('Textbee API Error:', apiError.response?.data || apiError.message);
-            res.status(500).json({ status: 'error', message: 'Failed to send SMS reply via Textbee' });
+            // Even if SMS fails, we return the AI response so the system knows what it generated
+            return res.status(502).json({ 
+                status: 'error', 
+                message: 'AI generated advice, but SMS delivery failed',
+                aiResponse: responseText,
+                details: apiError.message
+            });
         }
 
     } catch (error) {
